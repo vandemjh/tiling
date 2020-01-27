@@ -1,1 +1,1 @@
-<?php include_once("tiling.html"); ?>
+<?php include_once("tiling.php"); ?>
