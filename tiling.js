@@ -16,16 +16,21 @@ function rand(top) {
 
 function drawRect(x, y, r, g, b, size) {
   context.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
-  //console.log(x, y);
   context.fillRect(x, y, size, size);
-  //context.fillStyle(0, 0, 0);
+}
+
+function drawCircle(x, y, r, g, b, size) {
+  context.fillStyle = "rgb(" + r + "," + g + "," + b + ")";
+  context.beginPath();
+  context.arc(x, y, size, 0, 2 * Math.PI);
+  context.fill();
 }
 
 var newWidth = rgbArray.length;
 var newHeight = rgbArray[0].length;
 var placementScale = height / newHeight;
-//var placementWidth = width / newWidth;
-var horizontalScale = (width / 2) - (newWidth * placementScale / 2) ;
+var placementWidth = width / newWidth;
+var horizontalScale = width / 2 - (newWidth * placementScale) / 2;
 var pixelSize = 20;
 var scale = 0.1;
 var multiplier = 1;
@@ -34,13 +39,19 @@ var sliderSize = document.querySelector("#size");
 
 function loop() {
   sliderSize = document.querySelector("#size").value;
-  //console.log(rand(height));
   let x = rand(newWidth);
   let y = rand(newHeight);
   let r = rgbArray[x][y][0];
   let g = rgbArray[x][y][1];
   let b = rgbArray[x][y][2];
-  drawRect((x * placementScale) + horizontalScale, y * placementScale , r, g, b, rand(sliderSize));
+  drawCircle(
+    x * placementScale + horizontalScale + rand(placementWidth),
+    y * placementScale + rand(placementScale),
+    r,
+    g,
+    b,
+    rand(sliderSize)
+  );
   //pixelSize = pixelSize - scale;
   requestAnimationFrame(loop);
 }
