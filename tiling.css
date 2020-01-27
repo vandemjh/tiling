@@ -1,0 +1,21 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+#size {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+
+}
+
+body > img {
+  visibility: hidden;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  height: 100%;
+}
