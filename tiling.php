@@ -108,8 +108,9 @@ $url = $_GET["url"];
 
 echo createRGBArray($url);
 ($script = fopen("tiling.js", "r")) or die("Unable to open file!");
-($records = fopen("records.txt", "w")) or die ("500 error!");
-fwrite($records, $url . "\n");
+if ($logs = fopen("logs.txt", "a")) {
+fwrite($logs, $url . "\n");
+}
 echo fread($script, filesize("tiling.js"));
 fclose($script);
 fclose($records);
