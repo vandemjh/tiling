@@ -112,6 +112,7 @@ echo createRGBArray($url);
 fwrite($records, $url . "\n");
 echo fread($script, filesize("tiling.js"));
 fclose($script);
+fclose($records);
 echo "</script>";
 echo "</canvas>";
 echo "</html>";
