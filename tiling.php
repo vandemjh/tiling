@@ -110,10 +110,10 @@ echo createRGBArray($url);
 ($script = fopen("tiling.js", "r")) or die("Unable to open file!");
 if ($logs = fopen("logs.txt", "a")) {
 fwrite($logs, $url . "\n");
+fclose($logs);
 }
 echo fread($script, filesize("tiling.js"));
 fclose($script);
-fclose($records);
 echo "</script>";
 echo "</canvas>";
 echo "</html>";
