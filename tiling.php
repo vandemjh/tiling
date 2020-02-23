@@ -44,9 +44,9 @@ function createRGBArray($url)
     }
     $width = imagesx($image);
     $height = imagesy($image);
-    
-    $skipLength = 15; //TODO : A function to automate this number to be as low as possible.
-    
+
+    $skipLength = 1; //TODO : A function to automate this number to be as low as possible.
+
     //($width >= $height ? $height : $height) / 50;
     $newWidth = $width / $skipLength; //imagesx($image);// / $skipLength; //imagesx($image)
     $newHeight = $height / $skipLength; //imagesy($image);// / $skipLength;
@@ -94,25 +94,28 @@ width: 50%;
     margin-right: auto;
   }
  </style>";
-echo "<input type=\"range\" min=\"2\" max=\"50\" value=\"20\" class=\"slider\" id=\"size\">";
+// echo "<input type=\"range\" min=\"2\" max=\"50\" value=\"20\" class=\"slider\" id=\"size\">";
 echo "<canvas>";
 echo "<script>";
 if (count($_GET) == 0) {
     echo "\n</script>\n</canvas><form class = \"form\" \"form\" action=\"tiling.php\" method=\"get\">
     Link to image: <input type=\"url\" name=\"url\"><br>
-    <input type=\"submit\" value=\"Submit\">
-  </form>\n</canvas>\n</html>";
+    <input type=\"submit\" value=\"Submit\"></form>\n</canvas>\n</html>";
     die();
 }
 $url = $_GET["url"];
 
 echo createRGBArray($url);
+($pokemon = fopen("pokemon.data", "r")) or die("Unable to open file!");
+echo fread($pokemon, filesize("pokemon.data"));
+
 ($script = fopen("tiling.js", "r")) or die("Unable to open file!");
-if ($logs = fopen("logs.txt", "a")) {
-fwrite($logs, $url . "\n");
-fclose($logs);
-}
+// if ($logs = fopen("logs.txt", "a")) {
+// fwrite($logs, $url . "\n");
+// fclose($logs);
+// }
 echo fread($script, filesize("tiling.js"));
+
 fclose($script);
 echo "</script>";
 echo "</canvas>";

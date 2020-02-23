@@ -6,7 +6,7 @@ const width = canvas.width;
 const height = canvas.height;
 
 if (canvas.getContext) {
-  setInterval(loop, 500);
+  setInterval(loop, 10000); //500
 }
 
 function rand(top) {
@@ -25,6 +25,39 @@ function drawCircle(x, y, r, g, b, size) {
   context.fill();
 }
 
+function weightRGB(r, g, b) {
+  return r * (1 / 3) + b * (1 / 3) + g * (1 / 3);
+}
+
+// Finds the Pokemon from the included JSON with the closest colors
+function drawPokemon(x, y, r, g, b, size) {
+  // img = new Image("/pokemon/1.png");
+  target = weightRGB(r, g, b);
+  closest = [255, 255, 255]; // Large value to start
+  closestElement = "Error";
+  for (key in pokemon) {
+    if (
+      weightRGB(
+        Math.abs(r - pokemon[key][0]),
+        Math.abs(g - pokemon[key][1]),
+        Math.abs(b - pokemon[key][2])
+      ) <
+      weightRGB(
+        Math.abs(r - closest[0]),
+        Math.abs(g - closest[1]),
+        Math.abs(b - closest[2])
+      )
+    ) {
+      closest = [pokemon[key][0], pokemon[key][1], pokemon[key][2]];
+      closestElement = key;
+    }
+  }
+  //console.log(closest);
+  img = new Image();
+  img.src = "pokemon/" + closestElement;
+  context.drawImage(img, x, y, 64/size, 64/size); //, sizeX, sizeY
+}
+
 var newWidth = rgbArray.length;
 var newHeight = rgbArray[0].length;
 var placementScale = height / newHeight;
@@ -34,23 +67,31 @@ var pixelSize = 20;
 var scale = 0.1;
 var multiplier = 1;
 
-var sliderSize = document.querySelector("#size");
+var sliderSize = 2; //document.querySelector("#size");
 
 function loop() {
-  sliderSize = document.querySelector("#size").value;
+  //sliderSize = document.querySelector("#size").value;
   let x = rand(newWidth);
   let y = rand(newHeight);
   let r = rgbArray[x][y][0];
   let g = rgbArray[x][y][1];
   let b = rgbArray[x][y][2];
-  drawCircle(
-    x * placementScale + horizontalScale + rand(placementWidth),
-    y * placementScale + rand(placementScale),
+  drawPokemon(
+    x * placementScale, // + rand(placementWidth),
+    y * placementScale, // + rand(placementWidth),
     r,
     g,
     b,
-    rand(sliderSize)
+    sliderSize
   );
+  // drawCircle(
+  //   x * placementScale + horizontalScale + rand(placementWidth),
+  //   y * placementScale + rand(placementScale),
+  //   r,
+  //   g,
+  //   b,
+  //   rand(sliderSize)
+  // );
   //pixelSize = pixelSize - scale;
   requestAnimationFrame(loop);
 }
