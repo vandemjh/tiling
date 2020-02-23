@@ -55,7 +55,7 @@ function drawPokemon(x, y, r, g, b, size) {
   //console.log(closest);
   img = new Image();
   img.src = "pokemon/" + closestElement;
-  context.drawImage(img, x, y, 64/size, 64/size); //, sizeX, sizeY
+  context.drawImage(img, x, y, 64 / size, 64 / size); //, sizeX, sizeY
 }
 
 var newWidth = rgbArray.length;
@@ -67,7 +67,7 @@ var pixelSize = 20;
 var scale = 0.1;
 var multiplier = 1;
 
-var sliderSize = 2; //document.querySelector("#size");
+var sliderSize = 3; //document.querySelector("#size");
 
 function loop() {
   //sliderSize = document.querySelector("#size").value;
@@ -77,8 +77,8 @@ function loop() {
   let g = rgbArray[x][y][1];
   let b = rgbArray[x][y][2];
   drawPokemon(
-    x * placementScale, // + rand(placementWidth),
-    y * placementScale, // + rand(placementWidth),
+    x * placementScale + rand(placementWidth),
+    y * placementScale + rand(placementWidth),
     r,
     g,
     b,

@@ -1,7 +1,7 @@
 <?php
 /**
  * Creates the array of rgb values based on the given url in JavaScript form.
-**/
+ **/
 function createRGBArray($url)
 {
     if (strlen($url) == 0) {
@@ -45,15 +45,17 @@ function createRGBArray($url)
     $width = imagesx($image);
     $height = imagesy($image);
 
-    $skipLength = 2; //TODO : A function to automate this number to be as low as possible.
+    $skipLength = 5; //TODO : A function to automate this number to be as low as possible.
 
     //($width >= $height ? $height : $height) / 50;
     $newWidth = $width / $skipLength; //imagesx($image);// / $skipLength; //imagesx($image)
     $newHeight = $height / $skipLength; //imagesy($image);// / $skipLength;
     $rgbArray = "const rgbArray = [";
-    for ($x = 0; $x < $width; $x += $skipLength) { //for loop runs through each column and...
+    for ($x = 0; $x < $width; $x += $skipLength) {
+        //for loop runs through each column and...
         $rgbArray = $rgbArray . "[";
-        for ($y = 0; $y < $height; $y += $skipLength) { // each row to add rgb values.
+        for ($y = 0; $y < $height; $y += $skipLength) {
+            // each row to add rgb values.
             $rgb = imagecolorat($image, $x, $y);
             $r = ($rgb >> 16) & 0xff;
             $g = ($rgb >> 8) & 0xff;
