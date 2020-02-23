@@ -45,7 +45,7 @@ function createRGBArray($url)
     $width = imagesx($image);
     $height = imagesy($image);
 
-    $skipLength = 1; //TODO : A function to automate this number to be as low as possible.
+    $skipLength = 2; //TODO : A function to automate this number to be as low as possible.
 
     //($width >= $height ? $height : $height) / 50;
     $newWidth = $width / $skipLength; //imagesx($image);// / $skipLength; //imagesx($image)
