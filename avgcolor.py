@@ -1,5 +1,5 @@
 # All Pokemon ripped by veekun.com/dex/downloads
-
+# Creates JSON with all Pokemon from folder
 from PIL import Image
 import os
 
@@ -30,7 +30,7 @@ def getPixelData(file):
 
 
 pokemon = open("pokemon.data","w")
-pokemon.write("pokemon = {\n")
+pokemon.write("const pokemon = {\n")
 numberOfPokemon = len(os.listdir("pokemon/"))
 pokemonCount = 0
 
