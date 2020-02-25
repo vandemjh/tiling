@@ -5,9 +5,7 @@ canvas.height = document.body.clientHeight;
 const width = canvas.width;
 const height = canvas.height;
 
-if (canvas.getContext) {
-  setInterval(loop, 10000); //500
-}
+var mode = "static";
 
 function rand(top) {
   return Math.floor(Math.random() * top);
@@ -31,9 +29,7 @@ function weightRGB(r, g, b) {
 
 // Finds the Pokemon from the included JSON with the closest colors
 function drawPokemon(x, y, r, g, b, size) {
-  // img = new Image("/pokemon/1.png");
-  target = weightRGB(r, g, b);
-  closest = [255, 255, 255]; // Large value to start
+  closest = [500, 500, 500]; // Large value to start
   closestElement = "Error";
   for (key in pokemon) {
     if (
@@ -48,14 +44,22 @@ function drawPokemon(x, y, r, g, b, size) {
         Math.abs(b - closest[2])
       )
     ) {
+      //console.log(closest);
       closest = [pokemon[key][0], pokemon[key][1], pokemon[key][2]];
       closestElement = key;
     }
   }
-  //console.log(closest);
+  if (closestElement == "Error" || closest[0] == 500) {
+    return false;
+  }
   img = new Image();
   img.src = "pokemon/" + closestElement;
-  context.drawImage(img, x, y, 64 / size, 64 / size); //, sizeX, sizeY
+  try {
+    context.drawImage(img, x, y, size, size); //Pokemon are 64x64
+  } catch (err) {
+    return false;
+  }
+  return true;
 }
 
 var newWidth = rgbArray.length;
@@ -67,7 +71,7 @@ var pixelSize = 20;
 var scale = 0.1;
 var multiplier = 1;
 
-var sliderSize = 3; //document.querySelector("#size");
+var sliderSize = 32; //document.querySelector("#size");
 
 function loop() {
   //sliderSize = document.querySelector("#size").value;
@@ -77,7 +81,7 @@ function loop() {
   let g = rgbArray[x][y][1];
   let b = rgbArray[x][y][2];
   drawPokemon(
-    x * placementScale + rand(placementWidth),
+    x * placementScale + horizontalScale + rand(placementWidth),
     y * placementScale + rand(placementWidth),
     r,
     g,
@@ -95,21 +99,30 @@ function loop() {
   //pixelSize = pixelSize - scale;
   requestAnimationFrame(loop);
 }
+function paint() {
+  for (let x = 0; x < newWidth; x++) {
+    for (let y = 0; y < newHeight; y++) {
+      let r = rgbArray[x][y][0];
+      let g = rgbArray[x][y][1];
+      let b = rgbArray[x][y][2];
+      let success = false;
+      while (!success) {
+        success = drawPokemon(
+          x * placementScale + horizontalScale + rand(placementWidth),
+          y * placementScale + rand(placementWidth),
+          r,
+          g,
+          b,
+          sliderSize
+        );
+      }
+    }
+  }
+}
 
-//console.log(rgbArray[0].length);
-
-//pixelSize += (Math.random() > .5 ? -1 : 1) * Math.random() * multiplier;
-//if (multiplier > 10) multiplier*=-1;
-//if (multiplier < 2) multiplier*=-1;
-
-//for (let x = 0; x < newWidth; x++) {
-//  for (let y = 0; y < newHeight; y++) {
-//    let r = rgbArray[x][y][0];
-//    let g = rgbArray[x][y][1];
-//    let b = rgbArray[x][y][2];
-//console.log(r, g, b);
-//drawRect(x * 10, y * 10, r, g, b, 10);
-//  }
-//}
-
-loop();
+if (canvas.getContext && mode == "loop") {
+  setInterval(loop, 10000); //500
+  loop();
+} else {
+  paint();
+}
