@@ -29,7 +29,7 @@ function weightRGB(r, g, b) {
 
 // Finds the Pokemon from the included JSON with the closest colors
 function drawPokemon(x, y, r, g, b, size) {
-  closest = [500, 500, 500]; // Large value to start
+  closest = [5000, 5000, 5000]; // Large value to start
   closestElement = "Error";
   for (key in pokemon) {
     if (
@@ -52,12 +52,14 @@ function drawPokemon(x, y, r, g, b, size) {
   if (closestElement == "Error" || closest[0] == 500) {
     return false;
   }
-  img = new Image();
+
   img.src = "pokemon/" + closestElement;
-  try {
+  if (img.complete) {
     context.drawImage(img, x, y, size, size); //Pokemon are 64x64
-  } catch (err) {
-    return false;
+  } else {
+    img.addEventListener("load", function() {
+      context.drawImage(img, x, y, size, size); //Pokemon are 64x64
+    });
   }
   return true;
 }
@@ -99,6 +101,7 @@ function loop() {
   //pixelSize = pixelSize - scale;
   requestAnimationFrame(loop);
 }
+
 function paint() {
   for (let x = 0; x < newWidth; x++) {
     for (let y = 0; y < newHeight; y++) {
@@ -120,9 +123,16 @@ function paint() {
   }
 }
 
-if (canvas.getContext && mode == "loop") {
-  setInterval(loop, 10000); //500
-  loop();
-} else {
-  paint();
-}
+var img = new Image();
+img.onload = function() {
+  console.log("loaded");
+};
+
+window.onload = function() {
+  if (canvas.getContext && mode == "loop") {
+    setInterval(loop, 10000); //500
+    loop();
+  } else {
+    paint();
+  }
+};
