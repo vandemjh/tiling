@@ -7,6 +7,8 @@ const height = canvas.height;
 
 var mode = "static";
 
+// var unloadedImg = [];
+
 function rand(top) {
   return Math.floor(Math.random() * top);
 }
@@ -24,7 +26,7 @@ function drawCircle(x, y, r, g, b, size) {
 }
 
 function weightRGB(r, g, b) {
-  return r * (1 / 3) + b * (1 / 3) + g * (1 / 3);
+  return r + b + g; //r * (1 / 3) + b * (1 / 3) + g * (1 / 3);
 }
 
 // Finds the Pokemon from the included JSON with the closest colors
@@ -53,14 +55,16 @@ function drawPokemon(x, y, r, g, b, size) {
     return false;
   }
 
-  img.src = "pokemon/" + closestElement;
-  if (img.complete) {
+  img = new Image();
+  let source = "pokemon/" + closestElement;
+
+  img.onload = function() {
+    img.src = source;
     context.drawImage(img, x, y, size, size); //Pokemon are 64x64
-  } else {
-    img.addEventListener("load", function() {
-      context.drawImage(img, x, y, size, size); //Pokemon are 64x64
-    });
-  }
+    // console.log("loaded " + img);
+  };
+  img.src = "pokemon/" + closestElement;
+
   return true;
 }
 
@@ -109,30 +113,24 @@ function paint() {
       let g = rgbArray[x][y][1];
       let b = rgbArray[x][y][2];
       let success = false;
-      while (!success) {
-        success = drawPokemon(
-          x * placementScale + horizontalScale + rand(placementWidth),
-          y * placementScale + rand(placementWidth),
-          r,
-          g,
-          b,
-          sliderSize
-        );
-      }
+      drawPokemon(
+        x * placementScale + horizontalScale + rand(placementWidth),
+        y * placementScale + rand(placementWidth),
+        r,
+        g,
+        b,
+        sliderSize
+      );
     }
   }
 }
 
-var img = new Image();
-img.onload = function() {
-  console.log("loaded");
-};
-
-window.onload = function() {
+window.onload = async function() {
   if (canvas.getContext && mode == "loop") {
     setInterval(loop, 10000); //500
     loop();
   } else {
+    // await new Promise(r => setTimeout(r, 2000));
     paint();
   }
 };
