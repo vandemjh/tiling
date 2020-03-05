@@ -51,7 +51,8 @@ for table in emojiSplit.split("<table"):
                             if (colCount == COLUMN):
                                 urllib.request.urlretrieve(src, "temp" + ".png")
                                 # Used for downloading images
-                                emojisOut.write(count != 0 ? "," : "" + "\n\"" + src + "\":[" + getPixelData("temp.png") + "]")
+                                emojisOut.write({True: ",", False: ""} [count != 0]
+                                + "\n\"" + src + "\":[" + getPixelData("temp.png") + "]")
                                 count += 1
                                 if (count >= 45):
                                     exit()
