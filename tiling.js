@@ -68,6 +68,45 @@ function drawPokemon(x, y, r, g, b, size) {
   return true;
 }
 
+// Finds the Pokemon from the included JSON with the closest colors
+function drawEmoji(x, y, r, g, b, size) {
+  closest = [5000, 5000, 5000]; // Large value to start
+  closestElement = "Error";
+  for (key in emojis) {
+    if (
+      weightRGB(
+        Math.abs(r - emojis[key][0]),
+        Math.abs(g - emojis[key][1]),
+        Math.abs(b - emojis[key][2])
+      ) <
+      weightRGB(
+        Math.abs(r - closest[0]),
+        Math.abs(g - closest[1]),
+        Math.abs(b - closest[2])
+      )
+    ) {
+      //console.log(closest);
+      closest = [emojis[key][0], emojis[key][1], emojis[key][2]];
+      closestElement = key;
+    }
+  }
+  if (closestElement == "Error" || closest[0] == 500) {
+    return false;
+  }
+
+  img = new Image();
+  let source = closestElement;
+
+  img.onload = function() {
+    img.src = source;
+    context.drawImage(img, x, y, size, size); //Pokemon are 64x64
+    // console.log("loaded " + img);
+  };
+  img.src = closestElement;
+
+  return true;
+}
+
 var newWidth = rgbArray.length;
 var newHeight = rgbArray[0].length;
 var placementScale = height / newHeight;
@@ -113,7 +152,7 @@ function paint() {
       let g = rgbArray[x][y][1];
       let b = rgbArray[x][y][2];
       let success = false;
-      drawPokemon(
+      drawEmoji(
         x * placementScale + horizontalScale + rand(placementWidth),
         y * placementScale + rand(placementWidth),
         r,
@@ -121,6 +160,14 @@ function paint() {
         b,
         sliderSize
       );
+      // drawPokemon(
+      //   x * placementScale + horizontalScale + rand(placementWidth),
+      //   y * placementScale + rand(placementWidth),
+      //   r,
+      //   g,
+      //   b,
+      //   sliderSize
+      // );
     }
   }
 }

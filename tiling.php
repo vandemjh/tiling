@@ -109,7 +109,9 @@ $url = $_GET["url"];
 
 echo createRGBArray($url);
 ($pokemon = fopen("pokemon.data", "r")) or die("Unable to open file!");
+($emoji = fopen("unicode/emoji.data", "r")) or die("Unable to open file!");
 echo fread($pokemon, filesize("pokemon.data"));
+echo fread($emoji, filesize("unicode/emoji.data"));
 
 ($script = fopen("tiling.js", "r")) or die("Unable to open file!");
 // if ($logs = fopen("logs.txt", "a")) {
