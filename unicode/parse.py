@@ -7,11 +7,10 @@ import sys
 # insert at 1, 0 is the script path (or '' in REPL)
 # os.chdir('..')
 # sys.path.insert(1, str(os.getcwd()))
-sys.path.append('../')
+sys.path.append("../")
 from avgcolor import getPixelData
 
-os.chdir('unicode')
-print (os.getcwd())
+# print (os.getcwd())
 
 # URL = "https://unicode.org/emoji/charts/full-emoji-list.html"
 # page = requests.get(URL)
@@ -25,27 +24,42 @@ emojiSplit = emojisIn.read()
 # rows = []
 # columns = []
 # cells = []
+COLUMN = 1
 
+colCount = 0
 count = 0
+toBreak = False
+
 emojisOut.write("const emojis = {\n")
 for table in emojiSplit.split("<table"):
     # rows += table.split("<tr")
-    # count = 0
+    # colCount = 0
     for row in table.split("<tr"):
-        # if (count % 4 == 0):
+        # if (colCount % 4 == 0):
+        toBreak = False
+        colCount = 0
         for cell in row.split("<td"):
+            if (toBreak):
+                break
             for word in cell.split(" "):
+                if (toBreak):
+                    break
                 if ("src=" in word):
                     for src in word.split("\""):
-                        if ("data:image/png" in src):
-                            emojisOut.write(str(count) + " : " + src + "\n")
-                            # urllib.request.urlretrieve(src, str(count) + ".png")
-                            # Used for downloading images
-                            count += 1
-                            if (count > 100):
-                                exit()
-                # cells += column.split(" ");
+                        if ("data:image/png" in src): # TODO un-hard code this
+                            colCount += 1
+                            if (colCount == COLUMN):
+                                urllib.request.urlretrieve(src, "temp" + ".png")
+                                # Used for downloading images
+                                emojisOut.write("n\n\"" + src + "\":[" + getPixelData("temp.png") + "]")
+                                count += 1
+                                if (count >= 45):
+                                    exit()
+                            else:
+                                toBreak = True
+                                break
 
-
-emojisOut.write("}")
+print(count)
+emojisOut.write("\n}\n")
 emojisIn.close
+emojisOut.close

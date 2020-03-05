@@ -4,7 +4,7 @@ from PIL import Image
 import os
 
 def getPixelData(file):
-    img = Image.open('pokemon/' + file).convert('RGBA')
+    img = Image.open(file).convert('RGBA')
     pixels = list(img.getdata())
 
     #print(pixels)
@@ -26,21 +26,27 @@ def getPixelData(file):
     gAvg = gAvg / count
     bAvg = bAvg / count
 
-    return("\"" + file + "\" : [" + str(rAvg) +"," + str(gAvg) +"," + str(bAvg) + "]")
+    return(str(rAvg) +"," + str(gAvg) +"," + str(bAvg))
+
+def main():
+    pokemon = open("pokemon.data","w")
+    pokemon.write("const pokemon = {\n")
+    numberOfPokemon = len(os.listdir("pokemon/"))
+    pokemonCount = 0
+
+    for file in os.listdir("pokemon/"):
+        if file.endswith(".png"):
+            pokemon.write("\"" + file + "\" : [" +
+            getPixelData('pokemon/' + file)
+             + "]")
+            #print i
+            if (pokemonCount < numberOfPokemon - 1):
+                pokemon.write(",\n")
+            pokemonCount += 1
+
+    pokemon.write("\n};")
+    pokemon.close
 
 
-pokemon = open("pokemon.data","w")
-pokemon.write("const pokemon = {\n")
-numberOfPokemon = len(os.listdir("pokemon/"))
-pokemonCount = 0
-
-for file in os.listdir("pokemon/"):
-    if file.endswith(".png"):
-        pokemon.write(getPixelData(file))
-        #print i
-        if (pokemonCount < numberOfPokemon - 1):
-            pokemon.write(",\n")
-        pokemonCount += 1
-
-pokemon.write("\n};")
-pokemon.close
+if __name__== "__main__":
+  main()
