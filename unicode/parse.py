@@ -54,8 +54,8 @@ for table in emojiSplit.split("<table"):
                                 emojisOut.write({True: ",", False: ""} [count != 0]
                                 + "\n\"" + src + "\":[" + getPixelData("temp.png") + "]")
                                 count += 1
-                                if (count >= 45):
-                                    exit()
+                                # if (count >= 45):
+                                #     exit()
                             else:
                                 toBreak = True
                                 break
