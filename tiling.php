@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Creates the array of rgb values based on the given url in JavaScript form.
  **/
@@ -77,8 +78,7 @@ function createRGBArray($url)
     imagedestroy($image);
     return $rgbArray;
 }
-//$url = file_get_contents_curl('http://w3stu.cs.jmu.edu/vandemjh/jack.png');
-//$file = file_put_contents('picture.png', $url);
+
 echo "<!DOCTYPE html>";
 echo "<html>";
 echo "<style> html, body {
@@ -114,13 +114,11 @@ echo fread($pokemon, filesize("pokemon.data"));
 echo fread($emoji, filesize("unicode/emoji.data"));
 
 ($script = fopen("tiling.js", "r")) or die("Unable to open file!");
-// if ($logs = fopen("logs.txt", "a")) {
-// fwrite($logs, $url . "\n");
-// fclose($logs);
-// }
+
 echo fread($script, filesize("tiling.js"));
 
 fclose($script);
+
 echo "</script>";
 echo "</canvas>";
 echo "</html>";
