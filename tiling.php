@@ -1,10 +1,10 @@
 <?php
-include("createRGBArray.php");
-$css = fread(fopen("css/style.css", "r"), filesize("css/style.css"));
+include("utils.php");
+include(CREATERGBARRAY);
 
 echo "<!DOCTYPE html>";
 echo "<html>";
-echo "<style>" . $css . "</style>";
+echo "<style>" . openCSS() . "</style>";
 // echo "<input type=\"range\" min=\"2\" max=\"50\" value=\"20\" class=\"slider\" id=\"size\">";
 echo "<canvas>";
 echo "<script>";
@@ -22,11 +22,7 @@ echo createRGBArray($url);
 echo fread($pokemon, filesize("pokemon.data"));
 echo fread($emoji, filesize("unicode/emoji.data"));
 
-($script = fopen("tiling.js", "r")) or die("Unable to open file!");
-
-echo fread($script, filesize("tiling.js"));
-
-fclose($script);
+echo openJS();
 
 echo "</script>";
 echo "</canvas>";

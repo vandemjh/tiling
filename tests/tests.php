@@ -1,5 +1,7 @@
 <?php
-include(getcwd() . "/tiling.php");
+echo $_SERVER['DOCUMENT_ROOT'];
+include(__DIR__ . "/utils.php");
+include($_SERVER['DOCUMENT_ROOT'] . "/tiling/tiling.php");
 $rustart = getrusage();
 
 // $command = escapeshellcmd('/generateImages.py');
