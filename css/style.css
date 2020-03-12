@@ -1,0 +1,16 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+.form,
+body > form {
+  margin: 0 auto;
+  width: 50%;
+}
+#size {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

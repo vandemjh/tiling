@@ -1,9 +1,10 @@
 <?php
+include(getcwd() . "/tiling.php");
 $rustart = getrusage();
 
-$command = escapeshellcmd('/generateImages.py');
-$output = shell_exec($command);
-echo $output;
+// $command = escapeshellcmd('/generateImages.py');
+// $output = shell_exec($command);
+// echo $output;
 
 
 /*
