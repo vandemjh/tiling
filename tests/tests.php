@@ -1,7 +1,6 @@
 <?php
-echo $_SERVER['DOCUMENT_ROOT'];
-include(__DIR__ . "/utils.php");
-include($_SERVER['DOCUMENT_ROOT'] . "/tiling/tiling.php");
+include("../utils.php");
+include(CREATERGBARRAY);
 $rustart = getrusage();
 
 // $command = escapeshellcmd('/generateImages.py');

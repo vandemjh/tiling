@@ -2,12 +2,9 @@
 include("utils.php");
 include(CREATERGBARRAY);
 
-echo "<!DOCTYPE html>";
-echo "<html>";
-echo "<style>" . openCSS() . "</style>";
+echo "<!DOCTYPE html><html><style>" . openCSS() . "</style>";
 // echo "<input type=\"range\" min=\"2\" max=\"50\" value=\"20\" class=\"slider\" id=\"size\">";
-echo "<canvas>";
-echo "<script>";
+echo "<canvas><script>";
 if (count($_GET) == 0) {
     echo "\n</script>\n</canvas><form class = \"form\" \"form\" action=\"tiling.php\" method=\"get\">
     Link to image: <input type=\"url\" name=\"url\"><br>

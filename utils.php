@@ -3,7 +3,7 @@
 defined("ABSPATH") || define("ABSPATH", __DIR__ . "/");
 defined("CSS") || define("CSS", __DIR__ . "/css/style.css");
 defined("TILINGJS") || define("TILINGJS", __DIR__ . "/js/tiling.js");
-defined("CREATERGBARRAY") || define("CREATERGBARRAY", "createRGBArray.php");
+defined("CREATERGBARRAY") || define("CREATERGBARRAY", __DIR__ . "/createRGBArray.php");
 
 function openCSS() {
   $toOpen = fopen(CSS, "r");
