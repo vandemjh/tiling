@@ -1,7 +1,6 @@
 <?php
 include("../utils.php");
 include(CREATERGBARRAY);
-$rustart = getrusage();
 $calls = 0;
 
 /** --- Timing --- **/
@@ -12,7 +11,8 @@ function rutime($ru, $rus, $index) {
 
 /** --- Printing --- **/
 function printResults($pixels) {
-  global $calls, $rustart;
+  $rustart = getrusage();
+  global $calls;
   echo "</br>Test " . $calls ++ . ": " . $pixels;
   createRGBArray(ABSPATH . "/tests/images/" . $pixels . ".png");
   $ru = getrusage();
@@ -38,7 +38,7 @@ console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
 */
 
 echo "--- System Timing Tests ---";
-for ($i = 500; $i <= 5000; $i = $i + 500) {
+for ($i = 250; $i <= 5000; $i = $i + 250) {
   printResults($i);
 }
 
