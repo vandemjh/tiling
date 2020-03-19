@@ -2,7 +2,7 @@
 /**
  * Creates the array of rgb values based on the given url in JavaScript form.
  **/
-function createRGBArray($url)
+function createRGBArray($url, $skipSize)
 {
     if (strlen($url) == 0) {
         return;
@@ -45,16 +45,16 @@ function createRGBArray($url)
     $width = imagesx($image);
     $height = imagesy($image);
 
-    $skipLength = 10; //TODO : A function to automate this number to be as low as possible.
+    // $skipSize = 2; //TODO : A function to automate this number to be as low as possible.
 
     //($width >= $height ? $height : $height) / 50;
-    $newWidth = $width / $skipLength; //imagesx($image);// / $skipLength; //imagesx($image)
-    $newHeight = $height / $skipLength; //imagesy($image);// / $skipLength;
+    $newWidth = $width / $skipSize; //imagesx($image);// / $skipSize; //imagesx($image)
+    $newHeight = $height / $skipSize; //imagesy($image);// / $skipSize;
     $rgbArray = "const rgbArray = [";
-    for ($x = 0; $x < $width; $x += $skipLength) {
+    for ($x = 0; $x < $width; $x += $skipSize) {
         //for loop runs through each column and...
         $rgbArray = $rgbArray . "[";
-        for ($y = 0; $y < $height; $y += $skipLength) {
+        for ($y = 0; $y < $height; $y += $skipSize) {
             // each row to add rgb values.
             $rgb = imagecolorat($image, $x, $y);
             $r = ($rgb >> 16) & 0xff;
@@ -69,9 +69,9 @@ function createRGBArray($url)
                 "," .
                 $b .
                 "]" .
-                ($y + $skipLength < $height ? "," : "");
+                ($y + $skipSize < $height ? "," : "");
         }
-        $rgbArray = $rgbArray . "]" . ($x + $skipLength < $width ? "," : "");
+        $rgbArray = $rgbArray . "]" . ($x + $skipSize < $width ? "," : "");
     }
     $rgbArray = $rgbArray . "];";
     imagedestroy($image);

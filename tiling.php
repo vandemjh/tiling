@@ -13,7 +13,9 @@ if (count($_GET) == 0) {
 }
 $url = $_GET["url"];
 
-echo createRGBArray($url);
+$skipSize = 10;
+
+echo createRGBArray($url, $skipSize);
 ($pokemon = fopen("pokemon.data", "r")) or die("Unable to open file!");
 ($emoji = fopen("unicode/emoji.data", "r")) or die("Unable to open file!");
 echo fread($pokemon, filesize("pokemon.data"));
