@@ -1,6 +1,17 @@
 <?php
 include("../utils.php");
 include(CREATERGBARRAY);
+set_time_limit(0);
+
+// Exec the python script
+$command = escapeshellcmd("python3 ./generateImages.py");
+$output = shell_exec($command);
+
+if (strcmp($output, "success") != 0) {
+  echo "Python3 script failed, exiting...";
+  die();
+}
+
 $calls = 0;
 
 /** --- Timing --- **/
@@ -10,16 +21,16 @@ function rutime($ru, $rus, $index) {
 }
 
 /** --- Printing --- **/
-function printResults($pixels) {
+function printResults($pixels, $skipSize) {
   $rustart = getrusage();
-  global $calls;
-  echo "</br>Test " . $calls ++ . ": " . $pixels;
-  createRGBArray(ABSPATH . "/tests/images/" . $pixels . ".png");
+  // global $calls;
+  echo "<th>" . $pixels . "</th>";
+  echo "<th>" . $pixels * $pixels . "</th>"; //$calls ++ . ": " .
+  createRGBArray(ABSPATH . "/tests/images/" . $pixels . ".png", $skipSize);
   $ru = getrusage();
-  echo "</br>This process used " . rutime($ru, $rustart, "utime") .
-      " ms for its computations.";
-  echo "It spent " . rutime($ru, $rustart, "stime") .
-      " ms in system calls";
+  echo "<th>" . $computations = rutime($ru, $rustart, "utime") . "</th>";//This process used . ms for its computations.
+  echo "<th>" . $calls = rutime($ru, $rustart, "stime") . "</th>"; //"It spent . ms in system calls";
+  echo "<th>" . ((int)$computations + (int)$calls) . "</th>"; // Total time
 }
 
 
@@ -37,16 +48,31 @@ var t1 = performance.now();
 console.log("Call to doSomething took " + (t1 - t0) + " milliseconds.");
 */
 
-echo "--- System Timing Tests ---";
-for ($i = 250; $i <= 5000; $i = $i + 250) {
-  printResults($i);
+echo "<table><style>table, td, th {border:1px solid black;text-align:center;border-collapse:collapse;}</style>";
+echo "<tr><td colspan=5>--- System Timing Tests ---</th></tr>";
+
+echo "<tr><th>Height / Width</th><th>Total Pixels</th>
+      <th>Time spent on computations</th>
+      <th>Time spent in system calls</th>
+      <th>Total Time</th></tr>";
+
+$ruInitial = getrusage();
+
+for ($skipSize = 25; $skipSize >= 1; $skipSize = $skipSize - 1) {
+  echo "<tr><td colspan=5><strong>SkipSize = " . $skipSize . "</strong></th></tr>";
+  for ($i = 250; $i <= 5250; $i = $i + 250) {
+    echo "<tr>";
+    printResults($i, $skipSize);
+    echo "</tr>";
+  }
 }
 
+echo "<th></table>";
 echo "</br>--- Total test usage ---";
 $ru = getrusage();
-echo "</br>All tests used " . rutime($ru, $rustart, "utime") .
+echo "</br>All tests used " . rutime($ru, $ruInitial, "utime") .
     " ms for its computations.";
-echo "They spent " . rutime($ru, $rustart, "stime") .
+echo "They spent " . rutime($ru, $ruInitial, "stime") .
     " ms in system calls";
 
 /** --- End timing --- **/
