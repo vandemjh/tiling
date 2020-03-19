@@ -4,11 +4,12 @@ include(CREATERGBARRAY);
 set_time_limit(0);
 
 // Exec the python script
-$command = escapeshellcmd("python3 ./generateImages.py");
-$output = shell_exec($command);
+// $command = escapeshellcmd("python3 ./generateImages.py");
+$output = exec("python3 ./generateImages.py 2>&1"); // Redirect stderr to stdout
 
 if (strcmp($output, "success") != 0) {
-  echo "Python3 script failed, exiting...";
+  echo "Python3 script failed, exiting...</br>";
+  echo $output;
   die();
 }
 
