@@ -6,7 +6,7 @@ echo "<!DOCTYPE html><html><style>" . openCSS() . "</style>";
 // echo "<input type=\"range\" min=\"2\" max=\"50\" value=\"20\" class=\"slider\" id=\"size\">";
 echo "<canvas><script>";
 if (count($_GET) == 0) {
-    echo "\n</script>\n</canvas><form class = \"form\" \"form\" action=\"tiling.php\" method=\"get\">
+    echo "\n</script>\n</canvas><form class = \"form\" \"form\" action=\"" . "tiling.php" . "\" method=\"get\">
     Link to image: <input type=\"url\" name=\"url\"><br>
     <input type=\"submit\" value=\"Submit\"></form>\n</canvas>\n</html>";
     die();
