@@ -1,47 +1,60 @@
 <?php
+
+function getImageFromURL($url) {
+  if (strlen($url) == 0) {
+      return;
+  }
+  $urlArray = explode(".", $url);
+  $image = null;
+  switch ($urlArray[count($urlArray) - 1]) {
+      case 'png':
+          $image = imagecreatefrompng($url);
+          break;
+      case 'jpeg':
+          $image = imagecreatefromjpeg($url);
+          break;
+      case 'png':
+          $image = imagecreatefrompng($url);
+          break;
+      case 'gif':
+          $image = imagecreatefromgif($url);
+          break;
+      case 'bmp':
+          $image = imagecreatefrombmp($url);
+          break;
+      case 'xbm':
+          $image = imagecreatefromxbm($url);
+          break;
+      default:
+          $imageTry = imagepng(
+              imagecreatefromstring(file_get_contents($url)),
+              "temp"
+          );
+          if ($imageTry != null && $imageTry != false) {
+              $image = imagecreatefrompng("temp");
+          }
+          break;
+  }
+  if ($image == null) {
+      echo "\nalert(\"file type not supported at this time!\");</script>";
+      die();
+  }
+  return $image;
+}
+
+function getImageWidth($image) {
+  return imagesx($image);
+}
+
+function getImageHeight($image) {
+  return imagesy($image);
+}
+
 /**
  * Creates the array of rgb values based on the given url in JavaScript form.
  **/
-function createRGBArray($url, $skipSize)
+function createRGBArray($image, $skipSize)
 {
-    if (strlen($url) == 0) {
-        return;
-    }
-    $urlArray = explode(".", $url);
-    $image = null;
-    switch ($urlArray[count($urlArray) - 1]) {
-        case 'png':
-            $image = imagecreatefrompng($url);
-            break;
-        case 'jpeg':
-            $image = imagecreatefromjpeg($url);
-            break;
-        case 'png':
-            $image = imagecreatefrompng($url);
-            break;
-        case 'gif':
-            $image = imagecreatefromgif($url);
-            break;
-        case 'bmp':
-            $image = imagecreatefrombmp($url);
-            break;
-        case 'xbm':
-            $image = imagecreatefromxbm($url);
-            break;
-        default:
-            $imageTry = imagepng(
-                imagecreatefromstring(file_get_contents($url)),
-                "temp"
-            );
-            if ($imageTry != null && $imageTry != false) {
-                $image = imagecreatefrompng("temp");
-            }
-            break;
-    }
-    if ($image == null) {
-        echo "\nalert(\"file type not supported at this time!\");</script>";
-        die();
-    }
     $width = imagesx($image);
     $height = imagesy($image);
 

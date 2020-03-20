@@ -1,6 +1,8 @@
 <?php
-include("utils.php");
-include(CREATERGBARRAY);
+include_once("utils.php");
+include_once(CREATERGBARRAY);
+$imageSizes = openIMAGESIZES();
+$sizesJson = json_decode($imageSizes, true);
 
 echo "<!DOCTYPE html><html><style>" . openCSS() . "</style>";
 // echo "<input type=\"range\" min=\"2\" max=\"50\" value=\"20\" class=\"slider\" id=\"size\">";
@@ -11,11 +13,12 @@ if (count($_GET) == 0) {
     <input type=\"submit\" value=\"Submit\"></form>\n</canvas>\n</html>";
     die();
 }
+
 $url = $_GET["url"];
 
 $skipSize = 10;
 
-echo createRGBArray($url, $skipSize);
+echo createRGBArray(getImageFromURL($url), $skipSize);
 ($pokemon = fopen("pokemon.data", "r")) or die("Unable to open file!");
 ($emoji = fopen("unicode/emoji.data", "r")) or die("Unable to open file!");
 echo fread($pokemon, filesize("pokemon.data"));

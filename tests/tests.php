@@ -27,7 +27,7 @@ function printResults($pixels, $skipSize) {
   // global $calls;
   echo "<th>" . $pixels . "</th>";
   echo "<th>" . $pixels * $pixels . "</th>"; //$calls ++ . ": " .
-  createRGBArray(ABSPATH . "/tests/images/" . $pixels . ".png", $skipSize);
+  createRGBArray(getImageFromURL(ABSPATH . "/tests/images/" . $pixels . ".png"), $skipSize);
   $ru = getrusage();
   echo "<th>" . $computations = rutime($ru, $rustart, "utime") . "</th>";//This process used . ms for its computations.
   echo "<th>" . $calls = rutime($ru, $rustart, "stime") . "</th>"; //"It spent . ms in system calls";
