@@ -32,7 +32,7 @@ function printResults($pixels, $skipSize) {
   echo "<th>" . $computations = rutime($ru, $rustart, "utime") . "</th>";//This process used . ms for its computations.
   echo "<th>" . $calls = rutime($ru, $rustart, "stime") . "</th>"; //"It spent . ms in system calls";
   echo "<th>" . $total = ((int)$computations + (int)$calls) . "</th>"; // Total time
-  if ($total > 100000) { // if greater than 100 seconds quit
+  if ($total > 10000) { // if greater than 10 seconds quit
     echo "<tr><td colspan=5>--- Timed out! ---</th></tr>";
     return false;
   }
@@ -64,9 +64,13 @@ echo "<tr><th>Height / Width</th><th>Total Pixels</th>
 
 $ruInitial = getrusage();
 
-for ($skipSize = 25; $skipSize >= 1; $skipSize = $skipSize - 1) {
+for ($skipSize = 1; $skipSize <= 25; $skipSize = $skipSize + 1) {
   echo "<tr><td colspan=5><strong>SkipSize = " . $skipSize . "</strong></th></tr>";
-  for ($i = 250; $i <= 5250; $i = $i + 250) {
+  echo "<tr><th>Height / Width</th><th>Total Pixels</th>
+        <th>Time spent on computations</th>
+        <th>Time spent in system calls</th>
+        <th>Total Time</th></tr>";
+  for ($i = 250; $i <= 7000; $i = $i + 250) {
     echo "<tr>";
     if (!printResults($i, $skipSize)) break;
     echo "</tr>";
