@@ -2,7 +2,7 @@
 
 defined("ABSPATH") || define("ABSPATH", __DIR__ . "/");
 defined("CSS") || define("CSS", __DIR__ . "/css/style.css");
-defined("IMAGESIZES") || define("IMAGESIZES", __DIR__ . "/scale/imageSizes.json");
+defined("IMAGESIZES") || define("IMAGESIZES", __DIR__ . "/json/imageSizes.json");
 defined("TILINGJS") || define("TILINGJS", __DIR__ . "/js/tiling.js");
 defined("TILINGPHP") || define("TILINGPHP", __DIR__ . "/tiling.php");
 defined("CREATERGBARRAY") || define("CREATERGBARRAY", __DIR__ . "/createRGBArray.php");
