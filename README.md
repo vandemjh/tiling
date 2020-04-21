@@ -6,10 +6,10 @@ Tiling is an app to redraw a given picture using a variety of smaller images.
 ### Python
 Python scripts are used to take the average RGB value of every pixel in an array of images.  The results are output in JSON which is used later on the client side.
 ### PHP
-On the server, PHP is used to try to creating an image object from the URL.  If that fails the image is downloaded and converted to a png.
+On the server, PHP is used to try to create an image object from the URL.  If that fails, the image is downloaded and converted to a png.
 Next, each pixel of the image is read and output to the client in JSON.
 ### JavaScript
-A Canvas element is used to display the closest image for each pixel.
+A Canvas element is used to display the closest image for each pixel, determined by the average RGB values.
 
 ## Average Pixel JSON
 
